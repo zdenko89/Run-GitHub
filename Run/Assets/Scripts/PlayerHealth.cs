@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour {
 
+    private PlayerMove myPlayer;
+
     [SerializeField]
     Slider healthBar;
     [SerializeField]
@@ -12,6 +14,9 @@ public class PlayerHealth : MonoBehaviour {
 
     float maxHealth = 100;
     float currentHealth;
+
+
+    public GameObject BloodParticle;
 
 	// Use this for initialization
 	void Start ()
@@ -30,6 +35,7 @@ public class PlayerHealth : MonoBehaviour {
         {
             healthBar.value -= 1.5f;
             currentHealth = healthBar.value;
+            Instantiate(BloodParticle, gameObject.transform.position, gameObject.transform.rotation);
         }
 
     }

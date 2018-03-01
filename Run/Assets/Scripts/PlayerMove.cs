@@ -27,7 +27,11 @@ public class PlayerMove : MonoBehaviour {
     bool doubleJump = false;
     public float jumpForce = 700f;
 
-    
+    public Transform gunEnd;
+    public GameObject projectile;
+
+    private float rateofFire = 0f;
+    private float nextFire = 0f;
 
 
     void Start()
@@ -122,7 +126,7 @@ public class PlayerMove : MonoBehaviour {
             
             if ( slideTimer > maxSlideTime ) // and if slide timer is greater than max slide time set then ... 
             {
-                sliding = false; // gets set to false
+                sliding = false; // set to false
                 anim.SetBool("IsSliding", false); // stops the animation
                 gameObject.GetComponent<BoxCollider2D>().enabled = true; // enables the box collider on the object (player)
                 healthCollider.GetComponent<BoxCollider2D>().enabled = true; // and enables the health collider on the object (player)
@@ -157,6 +161,10 @@ public class PlayerMove : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.LeftControl)) // if the left shift key is pressed then ...
         {
             attack = true; // set attack to true
+
+            
+                fireProjectile();
+            
         }
 
         //if (Input.GetKeyDown(KeyCode.LeftShift)) // if the left shift key is pressed then ...
@@ -171,5 +179,29 @@ public class PlayerMove : MonoBehaviour {
         attack = false; // reseting the value for attack, so that it can be used again 
         //sliding = false; // reseting the values for slide
     }
-  
+
+    private void OnCollisionEnter2D(Collision2D collisionPlatformMoving)
+    {
+        if(collisionPlatformMoving.transform.tag == "MovingPlatform")
+        {
+            transform.parent = collisionPlatformMoving.transform;
+        }
+    }
+
+    void fireProjectile()
+    {
+        if (Time.time > nextFire)
+        {
+            nextFire = Time.time + rateofFire;
+        }
+        if (facingRight)
+        {
+            Instantiate(projectile, gunEnd.position, Quaternion.Euler(new Vector3(0, 0, 0)));
+        }
+        else if (!facingRight)
+        {
+            Instantiate(projectile, gunEnd.position, Quaternion.Euler(new Vector3(0, 0, 180)));
+        }
+    }
+
 }

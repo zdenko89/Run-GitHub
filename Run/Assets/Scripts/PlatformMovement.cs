@@ -4,21 +4,17 @@ using UnityEngine;
 
 public class PlatformMovement : MonoBehaviour {
 
-    private Vector3 posA;
-    private Vector3 posB;
-    private Vector3 nextPos;
-    [SerializeField]
-    private float speed;
-    [SerializeField]
-    private Transform childTransform;
-    [SerializeField]
-    private Transform transformB;
-    // Use this for initialization
+
+    public GameObject platform;
+    public float moveSpeed;
+    private Transform currentPoint;
+    public Transform[] points;
+    public int pointSelection;
+
 	void Start ()
     {
-        posA = childTransform.localPosition;
-        posB = transform.localPosition;
-        nextPos = posB;
+        
+        currentPoint = points[pointSelection];
         
 	}
 	
@@ -26,14 +22,21 @@ public class PlatformMovement : MonoBehaviour {
 	void Update ()
     {
 
-        Move();
+        platform.transform.position = Vector3.MoveTowards(platform.transform.position, currentPoint.position, Time.deltaTime * moveSpeed);
 
+        if (platform.transform.position == currentPoint.position)
+        {
+            pointSelection++;
+
+            if(pointSelection == points.Length)
+            {
+                pointSelection = 0;
+            }
+
+            currentPoint = points[pointSelection];
+        }
 	}
 
-    private void Move()
-    {
-
-        childTransform.localPosition = Vector3.MoveTowards(childTransform.localPosition, nextPos, speed * Time.deltaTime);
-
-    }
+    
+    
 }

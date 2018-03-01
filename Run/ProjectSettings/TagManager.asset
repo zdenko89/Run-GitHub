@@ -6,6 +6,8 @@ TagManager:
   tags:
   - hurt
   - ground
+  - MovingPlatform
+  - projectile
   layers:
   - Default
   - TransparentFX
@@ -18,8 +20,8 @@ TagManager:
   - Player
   - Background
   - Ground
-  - 
-  - 
+  - Falling
+  - Explodable
   - 
   - 
   - 
@@ -51,4 +53,7 @@ TagManager:
     locked: 0
   - name: 
     uniqueID: 747378545
+    locked: 0
+  - name: Ground
+    uniqueID: 1192583769
     locked: 0
