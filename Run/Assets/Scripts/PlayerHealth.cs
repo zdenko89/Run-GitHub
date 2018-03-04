@@ -6,11 +6,14 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour {
 
     private PlayerMove myPlayer;
+    Animator anim;
 
     [SerializeField]
     Slider healthBar;
     [SerializeField]
     Text healthText;
+
+    float damage = 1.5f;
 
     float maxHealth = 100;
     float currentHealth;
@@ -27,17 +30,27 @@ public class PlayerHealth : MonoBehaviour {
 
 	}
 	
+    public void addDamage(float damage)
+    {
+        if (damage <= 0) return;
+        currentHealth -= damage;
+    }
 
     void OnTriggerStay2D(Collider2D col)
     {
 
         if(col.gameObject.tag == "hurt")
         {
-            healthBar.value -= 1.5f;
+            healthBar.value -= damage;
             currentHealth = healthBar.value;
             Instantiate(BloodParticle, gameObject.transform.position, gameObject.transform.rotation);
         }
-
+        if (healthBar.value <= 0)
+        {
+            // life -= 1;
+            // gameObject reset
+           // anim.SetBool("isDead", true);
+        }
     }
 
 

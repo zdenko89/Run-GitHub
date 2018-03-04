@@ -8,6 +8,7 @@ TagManager:
   - ground
   - MovingPlatform
   - projectile
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Ground
   - Falling
   - Explodable
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -51,7 +52,7 @@ TagManager:
   - name: 
     uniqueID: 3702378841
     locked: 0
-  - name: 
+  - name: Enemy
     uniqueID: 747378545
     locked: 0
   - name: Ground
