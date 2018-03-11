@@ -9,6 +9,8 @@ TagManager:
   - MovingPlatform
   - projectile
   - Enemy
+  - Arrow
+  - Edge
   layers:
   - Default
   - TransparentFX

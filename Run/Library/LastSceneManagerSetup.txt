@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Saves/17 save.unity
+- path: Assets/Saves/20th save best working with partial AI.unity
   isLoaded: 1
   isActive: 1

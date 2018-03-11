@@ -102,14 +102,7 @@ public class PlayerMove : MonoBehaviour {
             GetComponent<Rigidbody2D>().velocity = new Vector2(move * maxSpeed, GetComponent<Rigidbody2D>().velocity.y); // give the character speed
         }
 
-        //if (sliding && !this.anim.GetCurrentAnimatorStateInfo(0).IsName("Slide")) // if slide (bool) is true and the animator "slide" is not triggered then set
-        //{
-        //    anim.SetBool("IsSliding", true); // this bool to true
-        //}
-        //else if (!this.anim.GetCurrentAnimatorStateInfo(0).IsName("Slide")) // else if the animator "slide" is not triggered then ...
-        //{
-        //    anim.SetBool("IsSliding", false); // set the "slide" animator to false.
-        //}
+       
 
 
         if(Input.GetButtonDown("Slide") && !sliding) // if the correct key or button is pressed which is attached to "slide" and is currently not sliding then ... 
@@ -135,7 +128,7 @@ public class PlayerMove : MonoBehaviour {
 
     }
 
-    void Flip() // method to make the character face the correct direction by flipping the scene and not the character]
+    public void Flip() // method to make the character face the correct direction by flipping the scene and not the character]
                 // this saves time making individual animations
     {
         facingRight = !facingRight; // face the opposite direction

@@ -24,7 +24,7 @@ public class HitObject : MonoBehaviour {
 		
 	}
 
-    private void OnTriggerEnter2D(Collider2D col)
+     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.layer == LayerMask.NameToLayer("Explodable")) // if the game object collides with anything in the LayerMask of Explodable then...
         {
@@ -40,7 +40,7 @@ public class HitObject : MonoBehaviour {
         }
     }
 
-    private void OnTriggerStayr2D(Collider2D col)
+     void OnTriggerStayr2D(Collider2D col)
     {
         if (col.gameObject.layer == LayerMask.NameToLayer("Explodable")) // if the game object collides with anything in the LayerMask of Explodable then...
         {

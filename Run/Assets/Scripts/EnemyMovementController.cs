@@ -68,9 +68,12 @@ public class EnemyMovementController : MonoBehaviour {
             {
                 if ( !facingRight ) // if the enemy is not facing right then ... 
                 {
-                    enemyRigid.AddForce(new Vector2(-1, 0)* enemySpeed); // add force on the rgidbody (archer) to the negative x direction
-                } else enemyRigid.AddForce(new Vector2(1, 0) * enemySpeed); // othjer wise add speed on the positive x direction
-                enemyAnim.SetBool("isAttacking", Attacking); // enabling the attacking animation
+
+                   // enemyRigid.AddForce(new Vector2(-1, 0)* enemySpeed); // add force on the rgidbody (archer) to the negative x direction
+                }
+                else  
+                   // enemyRigid.AddForce(new Vector2(1, 0) * enemySpeed); // othjer wise add speed on the positive x direction
+                      enemyAnim.SetBool("isAttacking", Attacking); // enabling the attacking animation
             }
         }
     }

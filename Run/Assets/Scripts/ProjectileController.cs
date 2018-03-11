@@ -14,16 +14,7 @@ public class ProjectileController : MonoBehaviour {
 
     void Awake()
     {
-        projectile = GetComponent<Rigidbody2D>();
-
-        if (transform.localRotation.z > 0)
-        {
-            projectile.AddForce(new Vector2(-1, 0) * projectileSpeed, ForceMode2D.Impulse);
-        }
-        else
-        {
-            projectile.AddForce(new Vector2(1, 0) * projectileSpeed, ForceMode2D.Impulse);
-        }
+        shoot();
     }
 
     void Update()
@@ -36,4 +27,19 @@ public class ProjectileController : MonoBehaviour {
         projectile.velocity = new Vector2(0,0);
     }
         
+    public void shoot()
+    {
+
+        projectile = GetComponent<Rigidbody2D>();
+
+        if (transform.localRotation.z > 0) // 
+        {
+            projectile.AddForce(new Vector2(-1, 0) * projectileSpeed, ForceMode2D.Impulse);
+        }
+        else
+        {
+            projectile.AddForce(new Vector2(1, 0) * projectileSpeed, ForceMode2D.Impulse);
+        }
+
+    }
 }
