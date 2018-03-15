@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ArrowController : MonoBehaviour {
 
-
-    Rigidbody2D arrow;
+    Rigidbody2D Arrow;
     public float ArrowSpeed;
 
     void Start()
@@ -13,31 +12,34 @@ public class ArrowController : MonoBehaviour {
 
     }
 
-    void awake()
+    void Awake()
     {
-        moveArrow();
-    }	
-	void Update ()
+        shoot();
+    }
+
+    void Update()
     {
-		
-	}
+
+    }
 
     public void stopArrow()
     {
-        arrow.velocity = new Vector2(0,0); // this will remove all speed for the arrow on impact
+        Arrow.velocity = new Vector2(0, 0);
     }
 
-    public void moveArrow()
+    public void shoot()
     {
-        arrow = GetComponent<Rigidbody2D>(); // whatever this script is attached to, arrow is the component of it
 
-        if (transform.localRotation.z > 0) 
+        Arrow = GetComponent<Rigidbody2D>();
+
+        if (transform.localRotation.z > 0) // 
         {
-            arrow.AddForce(new Vector2(-1, 0) * ArrowSpeed, ForceMode2D.Impulse);
+            Arrow.AddForce(new Vector2(-1, 0) * ArrowSpeed, ForceMode2D.Impulse);
         }
         else
         {
-            arrow.AddForce(new Vector2(1, 0) * ArrowSpeed, ForceMode2D.Impulse);
+            Arrow.AddForce(new Vector2(1, 0) * ArrowSpeed, ForceMode2D.Impulse);
         }
+
     }
 }

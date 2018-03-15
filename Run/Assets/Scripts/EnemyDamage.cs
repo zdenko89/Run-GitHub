@@ -7,6 +7,7 @@ public class EnemyDamage : MonoBehaviour {
     public float damage; // how much damage the enemy does
     public float damageRate; // how often the enemy can damage in seconds
     public float pushBackForce; // pushes back force from the damage 
+   
     float nextDamage;
 	
 	void Start ()
@@ -19,6 +20,11 @@ public class EnemyDamage : MonoBehaviour {
     {
 		        
 	}
+
+    void FixedUpdate()
+    {
+        
+    }
 
     void onTriggerStay2D (Collider2D col)
     {
