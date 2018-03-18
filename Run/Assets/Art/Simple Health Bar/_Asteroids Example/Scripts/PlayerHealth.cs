@@ -22,6 +22,9 @@ namespace SimpleHealthBar_SpaceshipExample
 
 		public GameObject explosionParticles;
 
+		public SimpleHealthBar healthBar;
+		public SimpleHealthBar shieldBar;
+
 	
 		void Awake ()
 		{
@@ -40,8 +43,8 @@ namespace SimpleHealthBar_SpaceshipExample
 			currentShield = maxShield;
 
 			// Update the Simple Health Bar with the updated values of Health and Shield.
-			SimpleHealthBar.UpdateBar( "Health", currentHealth, maxHealth );
-			SimpleHealthBar.UpdateBar( "Shield", currentShield, maxShield );
+			healthBar.UpdateBar( currentHealth, maxHealth );
+			shieldBar.UpdateBar( currentShield, maxShield );
 		}
 
 		void Update ()
@@ -53,7 +56,7 @@ namespace SimpleHealthBar_SpaceshipExample
 				currentShield += Time.deltaTime * 5;
 
 				// Update the Simple Health Bar with the new Shield values.
-				SimpleHealthBar.UpdateBar( "Shield", currentShield, maxShield );
+				shieldBar.UpdateBar( currentShield, maxShield );
 			}
 
 			// If the shield regen timer is greater than zero, then decrease the timer.
@@ -71,7 +74,7 @@ namespace SimpleHealthBar_SpaceshipExample
 				currentHealth = maxHealth;
 
 			// Update the Simple Health Bar with the new Health values.
-			SimpleHealthBar.UpdateBar( "Health", currentHealth, maxHealth );
+			healthBar.UpdateBar( currentHealth, maxHealth );
 		}
 
 		public void TakeDamage ( int damage )
@@ -120,8 +123,8 @@ namespace SimpleHealthBar_SpaceshipExample
 			StartCoroutine( "ShakeCamera" );
 
 			// Update the Health and Shield status bars.
-			SimpleHealthBar.UpdateBar( "Health", currentHealth, maxHealth );
-			SimpleHealthBar.UpdateBar( "Shield", currentShield, maxShield );
+			healthBar.UpdateBar( currentHealth, maxHealth );
+			shieldBar.UpdateBar( currentShield, maxShield );
 
 			// Reset the shield regen timer.
 			regenShieldTimer = regenShieldTimerMax;

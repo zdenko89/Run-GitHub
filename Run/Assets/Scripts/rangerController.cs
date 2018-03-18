@@ -44,7 +44,7 @@ public class rangerController : MonoBehaviour {
     {
         anim = GetComponent<Animator>(); // retrieving the Animator component attached to the archer
         player = GameObject.FindGameObjectWithTag("Player").transform;
-
+        rb = GetComponent<Rigidbody2D>(); // retrieving the rigidbody component from the archer
         timeBetweenShots = startTimeBetweenShots;
     }
 
@@ -52,7 +52,7 @@ public class rangerController : MonoBehaviour {
     {
         
 
-        rb = GetComponent<Rigidbody2D>(); // retrieving the rigidbody component from the archer
+        
 
         Debug.DrawRay(originPoint.position, direction * proximityRangeToWalls); // creating a raycast line point out of the ranger
         Debug.DrawRay(originPoint2.position, direction * proximityRangeToWalls);
@@ -88,7 +88,9 @@ public class rangerController : MonoBehaviour {
         if (hitDetectPlayer == true ) // if the second origin point STOPS toucing "Ground" layer then...
         {
             shootArrow();
-            transform.position = Vector2.MoveTowards(transform.position, player.position, -enemySpeed * Time.deltaTime);
+           //transform.position = Vector2.MoveTowards(transform.position, player.position, -enemySpeed * Time.deltaTime);
+            enemySpeed = 0;
+            anim.SetBool("isAttacking", true);
         } 
         
 

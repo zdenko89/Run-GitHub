@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1310e65397a274d44a776b51d6937f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorMode: 0
   barImage: {fileID: 11474322}
+  colorMode: 0
   barColor: {r: 0.32413793, g: 1, b: 0, a: 1}
   barGradient:
     serializedVersion: 2
@@ -135,10 +135,6 @@ MonoBehaviour:
   displayText: 0
   barText: {fileID: 0}
   additionalText: 
-  fillConstraint: 0
-  fillConstraintMin: 0
-  fillConstraintMax: 1
-  barName: 
 --- !u!222 &22235918
 CanvasRenderer:
   m_ObjectHideFlags: 1

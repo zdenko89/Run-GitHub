@@ -43,6 +43,8 @@ namespace SimpleHealthBar_SpaceshipExample
 		public float overheatTimerMax = 5.0f;
 		public float cooldownSpeed = 2.0f;
 		bool canShoot = true;
+		
+		public SimpleHealthBar gunHeatBar;
 
 
 		void OnDisable ()
@@ -110,7 +112,7 @@ namespace SimpleHealthBar_SpaceshipExample
 						overheatTimer -= Time.deltaTime * cooldownSpeed;
 				}
 
-				SimpleHealthBar.UpdateBar( "Gun", overheatTimer, overheatTimerMax );
+				gunHeatBar.UpdateBar( overheatTimer, overheatTimerMax );
 			}
 
 			// If the shoot timer is above zero, reduce it.
@@ -191,19 +193,19 @@ namespace SimpleHealthBar_SpaceshipExample
 
 		IEnumerator DelayOverheat ()
 		{
-			SimpleHealthBar.UpdateBar( "Gun", 1.0f, 1.0f );
+			gunHeatBar.UpdateBar( 1.0f, 1.0f );
 
 			yield return new WaitForSeconds( 1.0f );
 
 			for( float t = 0.0f; t < 1.0f; t += Time.deltaTime * 0.25f )
 			{
 				overheatTimer = Mathf.Lerp( 1.0f, 0.0f, t );
-				SimpleHealthBar.UpdateBar( "Gun", overheatTimer, 1.0f );
+				gunHeatBar.UpdateBar( overheatTimer, 1.0f );
 				yield return null;
 			}
 
 			overheatTimer = 0;
-			SimpleHealthBar.UpdateBar( "Gun", overheatTimer, overheatTimerMax );
+			gunHeatBar.UpdateBar( overheatTimer, overheatTimerMax );
 
 			canShoot = true;
 		}

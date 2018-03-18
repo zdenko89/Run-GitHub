@@ -49,7 +49,7 @@ public class PlayerHealth : MonoBehaviour {
         {
             // life -= 1;
             // gameObject reset
-           // anim.SetBool("isDead", true);
+           anim.SetBool("isDead", true);
         }
     }
 

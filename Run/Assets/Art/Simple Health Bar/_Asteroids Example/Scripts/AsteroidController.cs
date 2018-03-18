@@ -17,7 +17,7 @@ namespace SimpleHealthBar_SpaceshipExample
 
 		public float health;
 		public float maxHealth;
-
+		
 
 		public void Setup ( Vector3 force, Vector3 torque )
 		{
@@ -37,7 +37,7 @@ namespace SimpleHealthBar_SpaceshipExample
 			// Wait for the designated time.
 			yield return new WaitForSeconds( delayTime );
 
-			// Allow this asteroid to be destoryed.
+			// Allow this asteroid to be destroyed.
 			canDestroy = true;
 		}
 	
@@ -46,7 +46,7 @@ namespace SimpleHealthBar_SpaceshipExample
 			// If the asteroid is out of the screen...
 			if( Mathf.Abs( transform.position.x ) > Camera.main.orthographicSize * Camera.main.aspect * 1.3f || Mathf.Abs( transform.position.z ) > Camera.main.orthographicSize * 1.3f )
 			{
-				// If this asteroid can be destoryed, then commence destruction!
+				// If this asteroid can be destroyed, then commence destruction!
 				if( canDestroy == true )
 					Destroy( gameObject );
 			}
@@ -106,7 +106,7 @@ namespace SimpleHealthBar_SpaceshipExample
 			// Spawn some debris from this asteroids position.
 			GameManager.Instance.SpawnDebris( transform.position );
 
-			// Destory this asteroid.
+			// Destroy this asteroid.
 			Destroy( gameObject );
 		}
 
@@ -114,7 +114,7 @@ namespace SimpleHealthBar_SpaceshipExample
 		{
 			// Reduce health by the damage dealt.
 			health -= damage;
-
+			
 			// If health is less than or IS 0...
 			if( health <= 0 )
 			{

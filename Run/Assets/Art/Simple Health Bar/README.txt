@@ -2,7 +2,7 @@ Thank you for purchasing the Simple Health Bar package from the Unity Asset Stor
 
 Support Email: tankandhealerstudio@outlook.com
 Contact Form: http://www.tankandhealerstudio.com/contact-us.html
-Official Online Documentation: http://www.tankandhealerstudio.com/simple-health-bar_documentation.html
+Official Documentation: Window / Tank and Healer Studio / Simple Health Bar FREE
 
 // --- HOW TO CREATE --- //
 	In order to create a Simple Health Bar in your scene, first make sure there is Canvas in your scene. After there is a Canvas
@@ -34,7 +34,8 @@ player has finished taking damage. For example:
 		}
 	
 	
-		NOTE: For more information about each function and how to use it, please see the Official Online Documentation linked above.
+		NOTE: For more information about each function and how to use it, please see the In-Engine Documentation window that was included in
+	the download. It can be found at Window / Tank and Healer Studio / Ultimate Health Bar.
 
 	// --- ATTENTION JAVASCRIPT USERS --- //
 	If you are using Javascript to program your game, you may be unable to reference the Simple Health Bar in it's current folder

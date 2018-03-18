@@ -11,34 +11,36 @@ public class SimpleHealthBarEditor : Editor
 {
 	SimpleHealthBar targ;
 
-	float testValue = 100.0f;
+	// ----->>> IMAGE //
+	AnimBool ImageAssigned, ImageUnassigned;
+	AnimBool ImageFilledWarning;
+	SerializedProperty barImage;
 
-	SerializedProperty colorMode, statusImage;
-	SerializedProperty statusColor, statusGradient;
+	// ----->>> COLOR //
+	AnimBool ImageColorWarning;
+	SerializedProperty colorMode, barColor, barGradient;
 
-	SerializedProperty displayText, statusText;
-	SerializedProperty additionalText;
+	// ----->>> TEXT //
+	AnimBool DisplayTextOption;
+	Color textColor;
+	SerializedProperty barText;
+	SerializedProperty displayText, additionalText;
 
-	SerializedProperty fillConstraint;
-	SerializedProperty fillConstraintMin, fillConstraintMax;
-
-	SerializedProperty statusName;
-
-	Color statusTextColor = Color.white;
-	AnimBool ImageColorWarning, NameUnassigned;
+	// ---- < SCRIPT REFERENCE > ---- //
 	AnimBool ExampleCode;
-	AnimBool DuplicateStatusName, FillConstraintOptions;
-	AnimBool ImageWarning, DisplayTextOptions;
-	AnimBool StatusImageAssigned, StatusImageUnassigned;
-
 	enum FunctionList
 	{
 		UpdateBar,
 		UpdateColor,
 		UpdateTextColor
 	}
-	FunctionList functionList;
+	FunctionList functionList = FunctionList.UpdateBar;
 	string exampleCode;
+
+	// ----->>> TEST VALUE //
+	float testValue = 100.0f;
+
+	string barName = "healthBar";
 
 
 	void OnEnable ()
@@ -50,15 +52,7 @@ public class SimpleHealthBarEditor : Editor
 		Undo.undoRedoPerformed += UndoRedoCallback;
 
 		if( targ != null && targ.barImage != null )
-		{
-			float tempFloat = 0.0f;
-			if( targ.fillConstraint == true )
-				tempFloat = ( targ.barImage.fillAmount - targ.fillConstraintMin ) / ( targ.fillConstraintMax - targ.fillConstraintMin );
-			else
-				tempFloat = targ.barImage.fillAmount;
-
-			testValue = tempFloat * 100.0f;
-		}
+			testValue = targ.barImage.fillAmount * 100.0f;
 	}
 
 	void OnDisable ()
@@ -66,7 +60,8 @@ public class SimpleHealthBarEditor : Editor
 		// Remove the UndoRedoCallback from the Undo event.
 		Undo.undoRedoPerformed -= UndoRedoCallback;
 	}
-	
+
+	// Function called for Undo/Redo operations.
 	void UndoRedoCallback ()
 	{
 		// Re-reference all variables on undo/redo.
@@ -76,11 +71,13 @@ public class SimpleHealthBarEditor : Editor
 	public override void OnInspectorGUI ()
 	{
 		serializedObject.Update();
+
+		EditorGUILayout.Space();
 		
 		EditorGUILayout.BeginVertical( "Box" );
 
 		// ----- < BAR NAME > ----- //
-		if( statusName.stringValue == string.Empty && Event.current.type == EventType.Repaint )
+		if( barName == string.Empty && Event.current.type == EventType.Repaint )
 		{
 			GUIStyle style = new GUIStyle( GUI.skin.textField );
 			style.normal.textColor = new Color( 0.5f, 0.5f, 0.5f, 0.75f );
@@ -89,27 +86,27 @@ public class SimpleHealthBarEditor : Editor
 		else
 		{
 			EditorGUI.BeginChangeCheck();
-			EditorGUILayout.PropertyField( statusName, new GUIContent( "Bar Name", "The unique name to be used in reference to this bar." ) );
+			barName = EditorGUILayout.TextField( new GUIContent( "Bar Name", "The unique name to be used in reference to this bar." ), barName );
 			if( EditorGUI.EndChangeCheck() )
 			{
 				serializedObject.ApplyModifiedProperties();
-				DuplicateStatusName.target = GetDuplicateBarName();
-				NameUnassigned.target = targ.barName == string.Empty;
-				ExampleCode.target = targ.barName != string.Empty && !GetDuplicateBarName();
+				ExampleCode.target = barName != string.Empty;
 				GenerateExampleCode();
 			}
 		}
 		// ----- < END BAR NAME > ----- //
 
 		// ----- < NAME ERRORS > ----- //
-		if( EditorGUILayout.BeginFadeGroup( DuplicateStatusName.faded ) )
-			EditorGUILayout.HelpBox( "The bar name \"" + targ.barName + "\" is already being used in this scene. Please make each Simple Health Bar has a unique name.", MessageType.Warning );
-		EditorGUILayout.EndFadeGroup();
-		
 		if( EditorGUILayout.BeginFadeGroup( ExampleCode.faded ) )
 		{
 			GUILayout.Space( 1 );
+
+			EditorGUILayout.LabelField( "Public Variable", EditorStyles.boldLabel );
+			EditorGUILayout.LabelField( "Copy this variable declaration into your custom scripts.", EditorStyles.wordWrappedLabel );
+			EditorGUILayout.TextField( "public SimpleHealthBar " + barName + ";" );
+
 			EditorGUILayout.LabelField( "Example Code Generator", EditorStyles.boldLabel );
+			EditorGUILayout.LabelField( "Please choose the function that you want to use. Afterward, copy and paste the provided code into your scripts where you want to display a status to the user.", EditorStyles.wordWrappedLabel );
 			EditorGUI.BeginChangeCheck();
 			functionList = ( FunctionList )EditorGUILayout.EnumPopup( "Function", functionList );
 			if( EditorGUI.EndChangeCheck() )
@@ -126,7 +123,7 @@ public class SimpleHealthBarEditor : Editor
 
 		// ----- < BAR IMAGE > ----- //
 		EditorGUI.BeginChangeCheck();
-		EditorGUILayout.PropertyField( statusImage, new GUIContent( "Image", "The image component to be used for this bar." ) );
+		EditorGUILayout.PropertyField( barImage, new GUIContent( "Bar Image", "The image component to be used for this bar." ) );
 		if( EditorGUI.EndChangeCheck() )
 		{
 			serializedObject.ApplyModifiedProperties();
@@ -138,47 +135,50 @@ public class SimpleHealthBarEditor : Editor
 			}
 			if( targ.barImage != null )
 			{
-				statusColor.colorValue = targ.barImage.color;
+				barColor.colorValue = targ.barImage.color;
 				serializedObject.ApplyModifiedProperties();
 			}
 			targ.UpdateBar( testValue, 100.0f );
 
-			ImageWarning.target = GetBarImageWarning();
-			StatusImageAssigned.target = GetImageAssigned();
-			StatusImageUnassigned.target = GetImageUnassigned();
+			ImageFilledWarning.target = GetBarImageWarning();
+			ImageAssigned.target = GetImageAssigned();
+			ImageUnassigned.target = GetImageUnassigned();
 		}
 
-		if( EditorGUILayout.BeginFadeGroup( StatusImageUnassigned.faded ) )
+		if( EditorGUILayout.BeginFadeGroup( ImageUnassigned.faded ) )
 		{
 			EditorGUILayout.BeginVertical( "Box" );
 			EditorGUILayout.HelpBox( "Image is unassigned.", MessageType.Warning );
 			if( GUILayout.Button( "Find", EditorStyles.miniButton ) )
 			{
-				statusImage.objectReferenceValue = targ.GetComponent<Image>();
+				barImage.objectReferenceValue = targ.GetComponent<Image>();
 				serializedObject.ApplyModifiedProperties();
 				if( targ.barImage != null )
 				{
-					targ.barImage.type = Image.Type.Filled;
-					targ.barImage.fillMethod = Image.FillMethod.Horizontal;
-					EditorUtility.SetDirty( targ.barImage );
+					if( targ.barImage.type != Image.Type.Filled )
+					{
+						targ.barImage.type = Image.Type.Filled;
+						targ.barImage.fillMethod = Image.FillMethod.Horizontal;
+						EditorUtility.SetDirty( targ.barImage );
+					}
 
-					statusColor.colorValue = targ.barImage.color;
+					barColor.colorValue = targ.barImage.color;
 					serializedObject.ApplyModifiedProperties();
 				}
 
-				ImageWarning.target = GetBarImageWarning();
-				StatusImageAssigned.target = GetImageAssigned();
-				StatusImageUnassigned.target = GetImageUnassigned();
+				ImageFilledWarning.target = GetBarImageWarning();
+				ImageAssigned.target = GetImageAssigned();
+				ImageUnassigned.target = GetImageUnassigned();
 			}
 			EditorGUILayout.EndVertical();
 		}
 		EditorGUILayout.EndFadeGroup();
 		// ----- < END BAR IMAGE > ----- //
 
-		if( EditorGUILayout.BeginFadeGroup( StatusImageAssigned.faded ) )
+		if( EditorGUILayout.BeginFadeGroup( ImageAssigned.faded ) )
 		{
 			// ----- < BAR IMAGE ERROR > ----- //
-			if( EditorGUILayout.BeginFadeGroup( ImageWarning.faded ) )
+			if( EditorGUILayout.BeginFadeGroup( ImageFilledWarning.faded ) )
 			{
 				EditorGUILayout.BeginVertical( "Box" );
 				EditorGUILayout.HelpBox( "Invalid Image Type: " + targ.barImage.type.ToString(), MessageType.Warning );
@@ -187,37 +187,40 @@ public class SimpleHealthBarEditor : Editor
 					targ.barImage.type = Image.Type.Filled;
 					EditorUtility.SetDirty( targ.barImage );
 
-					ImageWarning.target = GetBarImageWarning();
+					ImageFilledWarning.target = GetBarImageWarning();
 				}
 				EditorGUILayout.EndVertical();
 			}
-			if( StatusImageAssigned.faded == 1.0f )
+			if( ImageAssigned.faded == 1.0f )
 				EditorGUILayout.EndFadeGroup();
 			// ----- < END BAR IMAGE ERROR > ----- //
 
 			// ----- < BAR COLORS > ----- //
 			EditorGUI.BeginChangeCheck();
-			EditorGUILayout.PropertyField( colorMode, new GUIContent( "Color Mode", "The mode in which to display the color to the image component." ) );
+			EditorGUILayout.PropertyField( colorMode, new GUIContent( "Color Mode", "The mode in which to display the color to the barImage component." ) );
 			if( EditorGUI.EndChangeCheck() )
 			{
 				serializedObject.ApplyModifiedProperties();
-				UpdateColor();
+				UpdateStatusColor();
 				ImageColorWarning.target = GetColorWarning();
 			}
 
 			EditorGUI.BeginChangeCheck();
 			EditorGUI.indentLevel = 1;
 			if( targ.colorMode == SimpleHealthBar.ColorMode.Single )
-				EditorGUILayout.PropertyField( statusColor, new GUIContent( "Image Color", "The color of this image." ) );
+				EditorGUILayout.PropertyField( barColor, new GUIContent( "Color", "The color of this barImage." ) );
 			else
-				EditorGUILayout.PropertyField( statusGradient, new GUIContent( "Image Gradient", "The color gradient of this image." ) );
+				EditorGUILayout.PropertyField( barGradient, new GUIContent( "Gradient", "The color gradient of this barImage." ) );
 			EditorGUI.indentLevel = 0;
 			if( EditorGUI.EndChangeCheck() )
 			{
 				serializedObject.ApplyModifiedProperties();
-				UpdateColor();
+				UpdateStatusColor();
 				ImageColorWarning.target = GetColorWarning();
 			}
+
+			if( GetColorWarning() )
+				ImageColorWarning.target = GetColorWarning();
 
 			if( EditorGUILayout.BeginFadeGroup( ImageColorWarning.faded ) )
 			{
@@ -226,20 +229,20 @@ public class SimpleHealthBarEditor : Editor
 				EditorGUILayout.BeginHorizontal();
 				if( GUILayout.Button( "Update Image", EditorStyles.miniButtonLeft ) )
 				{
-					targ.barImage.color = statusColor.colorValue;
+					targ.barImage.color = barColor.colorValue;
 					EditorUtility.SetDirty( targ.barImage );
 					ImageColorWarning.target = GetColorWarning();
 				}
 				if( GUILayout.Button( "Update Script", EditorStyles.miniButtonRight ) )
 				{
-					statusColor.colorValue = targ.barImage.color;
+					barColor.colorValue = targ.barImage.color;
 					serializedObject.ApplyModifiedProperties();
 					ImageColorWarning.target = GetColorWarning();
 				}
 				EditorGUILayout.EndHorizontal();
 				EditorGUILayout.EndVertical();
 			}
-			if( StatusImageAssigned.faded == 1.0f )
+			if( ImageAssigned.faded == 1.0f )
 				EditorGUILayout.EndFadeGroup();
 			// ----- < END BAR COLORS > ----- //
 
@@ -251,35 +254,35 @@ public class SimpleHealthBarEditor : Editor
 			if( EditorGUI.EndChangeCheck() )
 			{
 				serializedObject.ApplyModifiedProperties();
-				DisplayTextOptions.target = targ.displayText != SimpleHealthBar.DisplayText.Disabled;
+				DisplayTextOption.target = targ.displayText != SimpleHealthBar.DisplayText.Disabled;
 
 				targ.UpdateBar( testValue, 100.0f );
-				if( statusText.objectReferenceValue != null )
+				if( barText.objectReferenceValue != null )
 					EditorUtility.SetDirty( targ.barText );
 			}
 
-			if( EditorGUILayout.BeginFadeGroup( DisplayTextOptions.faded ) )
+			if( EditorGUILayout.BeginFadeGroup( DisplayTextOption.faded ) )
 			{
 				EditorGUI.indentLevel = 1;
 
 				EditorGUI.BeginChangeCheck();
-				EditorGUILayout.PropertyField( statusText, new GUIContent( "Text", "The Text component to be used for the status text." ) );
+				EditorGUILayout.PropertyField( barText, new GUIContent( "Bar Text", "The Text component to be used for the text." ) );
 				if( EditorGUI.EndChangeCheck() )
 				{
 					serializedObject.ApplyModifiedProperties();
-					targ.UpdateTextColor( statusTextColor );
+					targ.UpdateTextColor( textColor );
 					targ.UpdateBar( testValue, 100.0f );
-					if( statusText.objectReferenceValue != null )
+					if( barText.objectReferenceValue != null )
 						EditorUtility.SetDirty( targ.barText );
 				}
 
 				EditorGUI.BeginChangeCheck();
-				statusTextColor = EditorGUILayout.ColorField( new GUIContent( "Text Color", "The color of the Text component." ), statusTextColor );
+				textColor = EditorGUILayout.ColorField( new GUIContent( "Text Color", "The color of the Text component." ), textColor );
 				if( EditorGUI.EndChangeCheck() )
 				{
 					serializedObject.ApplyModifiedProperties();
-					targ.UpdateTextColor( statusTextColor );
-					if( statusText.objectReferenceValue != null )
+					targ.UpdateTextColor( textColor );
+					if( barText.objectReferenceValue != null )
 						EditorUtility.SetDirty( targ.barText );
 				}
 
@@ -289,7 +292,7 @@ public class SimpleHealthBarEditor : Editor
 				{
 					serializedObject.ApplyModifiedProperties();
 					targ.UpdateBar( testValue, 100.0f );
-					if( statusText.objectReferenceValue != null )
+					if( barText.objectReferenceValue != null )
 						EditorUtility.SetDirty( targ.barText );
 				}
 
@@ -320,43 +323,9 @@ public class SimpleHealthBarEditor : Editor
 				EditorGUI.indentLevel = 0;
 				EditorGUILayout.Space();
 			}
-			if( StatusImageAssigned.faded == 1.0f )
+			if( ImageAssigned.faded == 1.0f )
 				EditorGUILayout.EndFadeGroup();
 			// ----- < END TEXT OPTIONS > ----- //
-
-			// ----- < FILL CONSTRAINT > ----- //
-			EditorGUI.BeginChangeCheck();
-			EditorGUILayout.PropertyField( fillConstraint, new GUIContent( "Fill Constraint", "Determines whether or not the image fill should be constrained." ) );
-			if( EditorGUI.EndChangeCheck() )
-			{
-				serializedObject.ApplyModifiedProperties();
-				FillConstraintOptions.target = targ.fillConstraint;
-			}
-
-			if( EditorGUILayout.BeginFadeGroup( FillConstraintOptions.faded ) )
-			{
-				EditorGUI.indentLevel = 1;
-
-				EditorGUI.BeginChangeCheck();
-				EditorGUILayout.Slider( fillConstraintMin, 0.0f, targ.fillConstraintMax, new GUIContent( "Fill Minimum", "The minimum fill amount." ) );
-				EditorGUILayout.Slider( fillConstraintMax, targ.fillConstraintMin, 1.0f, new GUIContent( "Fill Maximum", "The maximum fill amount." ) );
-				if( EditorGUI.EndChangeCheck() )
-				{
-					serializedObject.ApplyModifiedProperties();
-					if( targ.barImage != null )
-					{
-						targ.barImage.enabled = false;
-						targ.UpdateBar( testValue, 100.0f );
-						targ.barImage.enabled = true;
-					}
-				}
-
-				EditorGUI.indentLevel = 0;
-				EditorGUILayout.Space();
-			}
-			if( StatusImageAssigned.faded == 1.0f )
-				EditorGUILayout.EndFadeGroup();
-			// --- < END FILL CONSTRAINT > --- //
 
 			// ----- < TEST VALUE > ----- //
 			EditorGUI.BeginChangeCheck();
@@ -376,44 +345,40 @@ public class SimpleHealthBarEditor : Editor
 		}
 		EditorGUILayout.EndFadeGroup();
 
+		EditorGUILayout.Space();
+
 		Repaint();
 	}
 
 	void StoreReferences ()
 	{
-		// Assign the current target.
 		targ = ( SimpleHealthBar ) target;
 
-		colorMode = serializedObject.FindProperty( "colorMode" );
-		statusImage = serializedObject.FindProperty( "barImage" );
-		statusColor = serializedObject.FindProperty( "barColor" );
-		statusGradient = serializedObject.FindProperty( "barGradient" );
+		ImageAssigned = new AnimBool( GetImageAssigned() );
+		ImageUnassigned = new AnimBool( GetImageUnassigned() );
+		ImageFilledWarning = new AnimBool( GetBarImageWarning() );
+		barImage = serializedObject.FindProperty( "barImage" );
 
+		// ----->>> COLOR //
+		ImageColorWarning = new AnimBool( GetColorWarning() );
+		colorMode = serializedObject.FindProperty( "colorMode" );
+		barColor = serializedObject.FindProperty( "barColor" );
+		barGradient = serializedObject.FindProperty( "barGradient" );
+
+		// ----->>> TEXT //
+		DisplayTextOption = new AnimBool( targ.displayText != SimpleHealthBar.DisplayText.Disabled );
+		textColor = targ.barText != null ? targ.barText.color : Color.white;
+		barText = serializedObject.FindProperty( "barText" );
 		displayText = serializedObject.FindProperty( "displayText" );
-		statusText = serializedObject.FindProperty( "barText" );
 		additionalText = serializedObject.FindProperty( "additionalText" );
 
-		fillConstraint = serializedObject.FindProperty( "fillConstraint" );
-		fillConstraintMin = serializedObject.FindProperty( "fillConstraintMin" );
-		fillConstraintMax = serializedObject.FindProperty( "fillConstraintMax" );
+		// ---- < SCRIPT REFERENCE > ---- //
+		ExampleCode = new AnimBool( barName != string.Empty );
 
-		statusName = serializedObject.FindProperty( "barName" );
-
-		ImageWarning = new AnimBool( GetBarImageWarning() );
-		DisplayTextOptions = new AnimBool( targ.displayText != SimpleHealthBar.DisplayText.Disabled );
-		ImageColorWarning = new AnimBool( GetColorWarning() );
-		DuplicateStatusName = new AnimBool( GetDuplicateBarName() );
-		NameUnassigned = new AnimBool( targ.barName == string.Empty );
-		FillConstraintOptions = new AnimBool( targ.fillConstraint );
-
-		ExampleCode = new AnimBool( targ.barName != string.Empty && !GetDuplicateBarName() );
-		exampleCode = "SimpleHealthBar.UpdateBar( \"" + targ.barName + "\", currentValue, maxValue );";
-
-		StatusImageAssigned = new AnimBool( GetImageAssigned() );
-		StatusImageUnassigned = new AnimBool( GetImageUnassigned() );
+		GenerateExampleCode();
 	}
 
-	void UpdateColor ()
+	void UpdateStatusColor ()
 	{
 		// If the image component is null, then return.
 		if( targ.barImage == null )
@@ -469,18 +434,6 @@ public class SimpleHealthBarEditor : Editor
 		return false;
 	}
 
-	bool GetDuplicateBarName ()
-	{
-		SimpleHealthBar[] allHealthBars = FindObjectsOfType<SimpleHealthBar>();
-		for( int i = 0; i < allHealthBars.Length; i++ )
-		{
-			if( targ != allHealthBars[ i ] && targ.barName == allHealthBars[ i ].barName && allHealthBars[ i ].barName != string.Empty )
-				return true;
-		}
-
-		return false;
-	}
-
 	void GenerateExampleCode ()
 	{
 		switch( functionList )
@@ -488,17 +441,17 @@ public class SimpleHealthBarEditor : Editor
 			default:
 			case FunctionList.UpdateBar:
 			{
-				exampleCode = "SimpleHealthBar.UpdateBar( \"" + targ.barName + "\", currentValue, maxValue );";
+				exampleCode = barName + ".UpdateBar( current, max );";
 			}
 			break;
 			case FunctionList.UpdateColor:
 			{
-				exampleCode = "SimpleHealthBar.UpdateStatusColor( \"" + targ.barName + "\", newColor );";
+				exampleCode = barName + ".UpdateColor( newColor );";
 			}
 			break;
 			case FunctionList.UpdateTextColor:
 			{
-				exampleCode = "SimpleHealthBar.UpdateTextColor( \"" + targ.barName + "\", newTextColor );";
+				exampleCode = barName + ".UpdateTextColor( newTextColor );";
 			}
 			break;
 		}
