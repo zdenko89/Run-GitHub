@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Saves/25th save.unity
+- path: Assets/Saves/27th save working portal.unity
   isLoaded: 1
   isActive: 1

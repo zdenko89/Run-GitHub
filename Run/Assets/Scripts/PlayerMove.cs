@@ -33,6 +33,9 @@ public class PlayerMove : MonoBehaviour {
     private float rateofFire = 0f;
     private float nextFire = 0f;
 
+    public GameObject exitDoorObject;
+    public Vector3 exitDoorTrans;
+
 
     void Start()
     {
@@ -41,6 +44,8 @@ public class PlayerMove : MonoBehaviour {
 
     void Update() // happens every frame
     {
+        exitDoorTrans = exitDoorObject.transform.position;
+
         HandleInput(); // calling this function.
 
         if ((grounded || !doubleJump ) && Input.GetKeyDown(KeyCode.Space)) // if the character is on the ground or not double jumping and pressing spacebar then ...
@@ -197,4 +202,13 @@ public class PlayerMove : MonoBehaviour {
         }
     }
 
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "hurt")
+        {
+            //Destroy(gameObject);
+            
+            gameObject.transform.position = exitDoorTrans;
+        }
+    }
 }

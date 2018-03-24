@@ -4,13 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - hurt
-  - ground
-  - MovingPlatform
-  - projectile
   - Enemy
+  - ground
+  - hurt
+  - projectile
   - Arrow
-  - Edge
+  - portal
+  - doomed
   layers:
   - Default
   - TransparentFX
@@ -48,18 +48,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: 
-    uniqueID: 1366820879
-    locked: 0
-  - name: 
-    uniqueID: 3702378841
-    locked: 0
   - name: Enemy
-    uniqueID: 747378545
+    uniqueID: 2116099231
     locked: 0
   - name: Ground
-    uniqueID: 1192583769
+    uniqueID: 2344118779
     locked: 0
   - name: Cannon
-    uniqueID: 981049679
+    uniqueID: 3405993979
     locked: 0
