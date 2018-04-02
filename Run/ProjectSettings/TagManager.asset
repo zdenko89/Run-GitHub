@@ -4,13 +4,15 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemy
   - ground
   - hurt
-  - projectile
   - Arrow
+  - Enemy
   - portal
-  - doomed
+  - projectile
+  - Cannon
+  - Ground
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX
@@ -23,9 +25,9 @@ TagManager:
   - Player
   - Background
   - Ground
-  - Falling
-  - Explodable
   - Enemy
+  - Explodable
+  - 
   - 
   - 
   - 

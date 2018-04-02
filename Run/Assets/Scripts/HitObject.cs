@@ -26,32 +26,34 @@ public class HitObject : MonoBehaviour {
 
      void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.layer == LayerMask.NameToLayer("Explodable")) // if the game object collides with anything in the LayerMask of Explodable then...
+        if (col.gameObject.layer == LayerMask.NameToLayer("Enemy")) // if the game object collides with anything in the LayerMask of Explodable then...
         {
-            hitDetector.stopProjectile(); // calling a function from a different script
+            hitDetector.stopProjectile(); // calling a function from a different script to stop the projectile
             Instantiate(HitEffect, transform.position, transform.rotation); // Instantiate the prefab 'HitEffect' that will be added in Unity, in this the object's position and rotate it 
             Destroy(gameObject); // destroying the game object now (Destroing the balistic object not the entire projectile set because I want the smoke particles to stay 
 
-            if(col.tag == "Enemy") // anything that collides with an object tagged "Enemy" then...
+            if(col.gameObject.tag == "Enemy") // anything that collides with an object tagged "Enemy" then...
             {
                 EnemyHealth hurtEnemy = col.gameObject.GetComponent<EnemyHealth>(); // retrieve the game object collider/reference from EnemyHealth script and...
                 hurtEnemy.addDamage(HitDamage);  // adding damage to damage in EnemyHealth script, where it deducts it from enemy health
             }
+            
         }
     }
 
-     void OnTriggerStayr2D(Collider2D col)
+     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.gameObject.layer == LayerMask.NameToLayer("Explodable")) // if the game object collides with anything in the LayerMask of Explodable then...
+        if (col.gameObject.layer == LayerMask.NameToLayer("Enemy")) // if the game object collides with anything in the LayerMask of Explodable then...
         {
-            hitDetector.stopProjectile(); // calling a function from a different script
+            hitDetector.stopProjectile(); // calling a function from a different script to stop the projectile
             Instantiate(HitEffect, transform.position, transform.rotation); // Instantiate the prefab 'HitEffect' that will be added in Unity, in this the object's position and rotate it 
             Destroy(gameObject); // destroying the game object now (Destroing the balistic object not the entire projectile set because I want the smoke particles to stay 
 
-            if (col.tag == "Enemy") // anything that collides with an object tagged "Enemy" then...
+            if (col.gameObject.tag == "Enemy") // anything that collides with an object tagged "Enemy" then...
             {
                 EnemyHealth hurtEnemy = col.gameObject.GetComponent<EnemyHealth>(); // retrieve the game object collider/reference from EnemyHealth script and...
                 hurtEnemy.addDamage(HitDamage);  // adding damage to damage in EnemyHealth script, where it deducts it from enemy health
+                Destroy(gameObject); //
             }
         }
     }

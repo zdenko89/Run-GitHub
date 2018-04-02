@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 50270811626792432}
   m_Layer: 12
   m_Name: SkullDecoRed
-  m_TagString: hurt
+  m_TagString: portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4112641691755772}
   - component: {fileID: 198173501172602702}
   - component: {fileID: 199324752493231926}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Particle System
   m_TagString: portal
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 70131652963765294}
   - component: {fileID: 114826105531370160}
   - component: {fileID: 61156501877018422}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Portal Main
   m_TagString: portal
   m_Icon: {fileID: 0}

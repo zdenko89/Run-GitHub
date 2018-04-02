@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4154306379235704}
   - component: {fileID: 198473141876128880}
   - component: {fileID: 199239687531887746}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: balistic smoke system
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,9 @@ GameObject:
   - component: {fileID: 50921182043409014}
   - component: {fileID: 114129230354785190}
   - component: {fileID: 114530822269604484}
-  m_Layer: 0
+  - component: {fileID: 61250745404351026}
+  - component: {fileID: 61256465917034488}
+  m_Layer: 8
   m_Name: Projectile
   m_TagString: projectile
   m_Icon: {fileID: 0}
@@ -57,7 +59,7 @@ GameObject:
   - component: {fileID: 212190551560544514}
   - component: {fileID: 61412055964714086}
   - component: {fileID: 114346193769158130}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Balistic
   m_TagString: projectile
   m_Icon: {fileID: 0}
@@ -118,13 +120,63 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!61 &61250745404351026
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1360693608868398}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &61256465917034488
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1360693608868398}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!61 &61412055964714086
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -161,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8be434eb72e3454a907975af997ac94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileSpeed: 100
+  projectileSpeed: 125
 --- !u!114 &114346193769158130
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21908150702b3314fa20ab66a0a9c2e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aliveTime: 6
+  aliveTime: 1
 --- !u!198 &198473141876128880
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -3635,7 +3687,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300018, guid: 4f3d817ad821bc345b488255f0de8318, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

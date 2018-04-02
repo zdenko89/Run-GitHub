@@ -17,7 +17,7 @@ public class EnemyHealth : MonoBehaviour {
 
 	void Start ()
     {
-
+        anim = GetComponent<Animator>();
         currentHealth = enemyMaxHealth;
         EnemyhealthSlider.maxValue = currentHealth;
         EnemyhealthSlider.value = currentHealth;
@@ -26,9 +26,13 @@ public class EnemyHealth : MonoBehaviour {
 	
 	void Update ()
     {
-		
-        
-	}
+        if (currentHealth <= 0)
+        {
+            Dead();
+            
+        }
+
+    }
 
     public void addDamage(float damage)
     {
@@ -37,17 +41,15 @@ public class EnemyHealth : MonoBehaviour {
         EnemyhealthSlider.gameObject.SetActive(true); 
         EnemyhealthSlider.value = currentHealth;
 
-        if(currentHealth <= 0)
-        {
-            Dead();
-        }
+        
                 
     }
     public void Dead()
     {
        Instantiate(enemyDeathEffect, transform.position, transform.rotation);
        anim.SetBool("isDead", true);
-       Destroy(gameObject);
+       GetComponent<rangerController>().enabled = false;
+       Destroy(gameObject, 5f);
         
     }
 }

@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour {
 
-    private PlayerMove myPlayer;
+    
     Animator anim;
-
+    [SerializeField]
+    GameObject deadUI;
     [SerializeField]
     Slider healthBar;
     [SerializeField]
@@ -24,7 +25,7 @@ public class PlayerHealth : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-
+        anim = GetComponent<Animator>();
         healthBar.value = maxHealth;
         currentHealth = healthBar.value;
 
@@ -34,6 +35,8 @@ public class PlayerHealth : MonoBehaviour {
     {
         if (damage <= 0) return;
         currentHealth -= damage;
+
+        
     }
 
     void OnTriggerStay2D(Collider2D col)
@@ -45,12 +48,7 @@ public class PlayerHealth : MonoBehaviour {
             currentHealth = healthBar.value;
             Instantiate(BloodParticle, gameObject.transform.position, gameObject.transform.rotation);
         }
-        if (healthBar.value <= 0)
-        {
-            // life -= 1;
-            // gameObject reset
-          // anim.SetBool("isDead", true);
-        }
+        
     }
 
 
@@ -58,7 +56,15 @@ public class PlayerHealth : MonoBehaviour {
 	void Update ()
     {
 
-        healthText.text = currentHealth.ToString() + "  %"; 
+        healthText.text = currentHealth.ToString() + "  %";
 
-	}
+
+        if (currentHealth <= 0)
+        {
+            anim.SetBool("isDead", true); // plays the dead animation 
+            GetComponent<PlayerController>().enabled = false; // stops the player movement
+            deadUI.gameObject.SetActive(true);
+            GetComponent<rangerController>().enabled = false; // stop the ranger from staying active when player is dead
+        }
+    }
 }

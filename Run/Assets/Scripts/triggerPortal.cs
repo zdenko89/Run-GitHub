@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class triggerPortal : MonoBehaviour {
 
-    PlayerMove myPlayer;
+    PlayerController myPlayer;
     public GameObject enterDoor;
    
 
@@ -12,7 +12,7 @@ public class triggerPortal : MonoBehaviour {
     
     void Start ()
     {
-        myPlayer = GetComponent<PlayerMove>();
+        myPlayer = GetComponent<PlayerController>();
        
         
     }

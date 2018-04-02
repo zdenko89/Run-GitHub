@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 58258098967586230}
   - component: {fileID: 114348946747735986}
   - component: {fileID: 114942308177983688}
+  - component: {fileID: 114593300205064448}
   m_Layer: 0
   m_Name: cannonBall
   m_TagString: Untagged
@@ -107,6 +108,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aliveTime: 5
+--- !u!114 &114593300205064448
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1129632364920112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dac49be272ccb314dabb70d4863b62e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cannonSpeedHigh: 25
+  cannonSpeedLow: 10
+  cannonBallAngle: 25
+  cannonTorque: 45
 --- !u!114 &114942308177983688
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,7 +170,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300054, guid: ad9cf93034405d14597cee64e4c9084b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

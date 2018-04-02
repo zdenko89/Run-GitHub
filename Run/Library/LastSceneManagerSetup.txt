@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Saves/27th save working portal.unity
+- path: Assets/Saves/22 save - added traps and platforms.unity
   isLoaded: 1
   isActive: 1

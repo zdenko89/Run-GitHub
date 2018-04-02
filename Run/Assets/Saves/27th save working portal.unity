@@ -4749,7 +4749,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 301870435}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: BowEnd
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -5196,7 +5196,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 349624327}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: OrignToPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
@@ -5669,7 +5669,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 389197636}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: RayCast originPoint
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -6892,7 +6892,7 @@ Prefab:
     - target: {fileID: 114786059663046404, guid: 67f78f46479696e4085c1cf7ec753d9e,
         type: 2}
       propertyPath: isOn
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1092730634680060, guid: 67f78f46479696e4085c1cf7ec753d9e, type: 2}
       propertyPath: m_Layer
@@ -7323,7 +7323,7 @@ Prefab:
     - target: {fileID: 114786059663046404, guid: 67f78f46479696e4085c1cf7ec753d9e,
         type: 2}
       propertyPath: isOn
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1092730634680060, guid: 67f78f46479696e4085c1cf7ec753d9e, type: 2}
       propertyPath: m_Name
@@ -12949,7 +12949,7 @@ Prefab:
     - target: {fileID: 114786059663046404, guid: 67f78f46479696e4085c1cf7ec753d9e,
         type: 2}
       propertyPath: isOn
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1092730634680060, guid: 67f78f46479696e4085c1cf7ec753d9e, type: 2}
       propertyPath: m_Layer
@@ -30097,7 +30097,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1958709033}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -130.7, y: -52.65, z: 0}
+  m_LocalPosition: {x: -148.06, y: -52.68, z: 0}
   m_LocalScale: {x: 2.1, y: 2.3, z: 1}
   m_Children:
   - {fileID: 389197636}
@@ -31788,7 +31788,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2079251106}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Raycast originPoint 2
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}

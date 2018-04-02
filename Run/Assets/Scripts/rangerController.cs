@@ -4,12 +4,35 @@ using UnityEngine;
 
 public class rangerController : MonoBehaviour {
 
+    //Problems found - 
+    // if the archer isn't perfectly on the ground when the game is first started then he will assume he's walking and it will play the running animation even 
+    // though he isn't moving.
+
+   // I have tried to use box collider to detect walls and the player but it didn't work.
+   // I have also tried to use the transformation position to detect walls and the player but that also gave me troubles when I wanted the archer to shoot at the enemy as
+   // well as retreating from the player if the player gets close
+   // I also attempted to use NavMesh but this was a bad idea as it didn't function at all.
+
+   // Another problem I have experienced is that the archer detects the player and successfuly shoots but doesn't stop shooting when the player leaves archer's sight.
+   
+   // Flipping the archer, this was the single most time consuming issue. I was able to make this work quite easily with the player but not with the archer. The problem was mainly
+   // bot transforming the localScale.
+
+   // If the archer has not been placed on the ground perfectly then he will not successfuly walk around and detect using raycast for some reason. 
 
 
-    
+
+
+   // Successful ideas - 
+   // I found out raycasting is really useful in both 2D and 3D through the unity website. I used their refference as a guideline to solving my problem.
+   // 
+   // Time between shots, this was a great idea that improved the AI so much more, in the beginning the archer constatly shot the player without any pause. After I implemented 
+   // time between shots it change the archer and gave the chance for the player to fight back.
+
+
 
     private Transform player; 
-    PlayerMove playerScript;
+    PlayerController playerScript;
     Rigidbody2D rb;
     private Animator anim;
 
@@ -28,8 +51,6 @@ public class rangerController : MonoBehaviour {
     public float proximityRangeToPlayer; // proximity range to detect the player
 
     bool facingRight = true; // this is to check whether the characer is facing left or right
-
-    
 
     public Transform bowEnd;
     public GameObject Arrow;
@@ -85,13 +106,18 @@ public class rangerController : MonoBehaviour {
             enemySpeed *= -1; // give ranger opposite speed
             direction *= -1; // opposite direction
         }
-        if (hitDetectPlayer == true ) // if the second origin point STOPS toucing "Ground" layer then...
+        if (hitDetectPlayer == true ) // if the raycast detets the player then...
         {
             shootArrow();
-           //transform.position = Vector2.MoveTowards(transform.position, player.position, -enemySpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, player.position, -enemySpeed * Time.deltaTime);
             enemySpeed = 0;
-            anim.SetBool("isAttacking", true);
-        } 
+            
+            anim.SetBool("isAttacking", true);           
+        } else 
+        {
+            anim.SetBool("isAttacking", false);
+            
+        }
         
 
     }
@@ -118,7 +144,7 @@ public class rangerController : MonoBehaviour {
     void shootArrow() // getting the arrow to shoot
     {
 
-        if (timeBetweenShots <= 0)
+        if (timeBetweenShots <= 0 && facingRight)
         {
 
             Instantiate(Arrow, bowEnd.position, Quaternion.Euler(new Vector3(0, 0, 0)));
@@ -130,16 +156,30 @@ public class rangerController : MonoBehaviour {
             timeBetweenShots -= Time.deltaTime;
         }
 
-        if (timeBetweenShots <= 0)
-            if (facingRight)
-            {
-                Instantiate(Arrow, bowEnd.position, Quaternion.Euler(new Vector3(0, 0, 0)));
+        if (timeBetweenShots <= 0 && !facingRight )
+        {
 
-            }
-            else if (!facingRight)
-            {
-                Instantiate(Arrow, bowEnd.position, Quaternion.Euler(new Vector3(0, 0, 180)));
-            }
+            Instantiate(Arrow, bowEnd.position, Quaternion.Euler(new Vector3(0, 0, 180)));
+            timeBetweenShots = startTimeBetweenShots;
+
+        }
+        else
+        {
+            timeBetweenShots -= Time.deltaTime;
+        }
+
+        //if (timeBetweenShots <= 0)
+        //    if (facingRight)
+        //    {
+                
+        //        Instantiate(Arrow, bowEnd.position, Quaternion.Euler(new Vector3(0, 0, 0)));
+
+        //    }
+        //    else if (!facingRight)
+        //    {
+                
+        //       Instantiate(Arrow, bowEnd.position, Quaternion.Euler(new Vector3(0, 0, 180)));
+        //    }
     }
            
     }
