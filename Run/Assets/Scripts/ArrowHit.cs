@@ -7,7 +7,7 @@ public class ArrowHit : MonoBehaviour
 
     public float damage;
     ArrowController ArrowController; // reference to script
-    public GameObject HitEffect;
+    public GameObject HitEffect; // prefab ref to the particle system initiated when the arrow hits an object or player
 
 
     void Start()

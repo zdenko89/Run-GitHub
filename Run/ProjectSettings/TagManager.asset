@@ -13,6 +13,8 @@ TagManager:
   - Cannon
   - Ground
   - MovingPlatform
+  - ladder
+  - checkpoint
   layers:
   - Default
   - TransparentFX

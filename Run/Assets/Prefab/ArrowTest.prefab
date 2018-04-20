@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 50747745510091714}
   - component: {fileID: 114779452094651160}
   - component: {fileID: 114753329195501570}
+  - component: {fileID: 82561210131063666}
   m_Layer: 11
   m_Name: ArrowTest
   m_TagString: hurt
@@ -178,6 +179,87 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32, y: 1.6}
   m_EdgeRadius: 0
+--- !u!82 &82561210131063666
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1754866685750196}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: bfa33e510d5c45544b7767dcbc85be45,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: 8a1978cdc1ff61945a563547030b2dda, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.769
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &114214687314393332
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -226,7 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e832c405938efca41ba25467aace5e99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aliveTime: 1
+  aliveTime: 1.5
 --- !u!198 &198376981190479556
 ParticleSystem:
   m_ObjectHideFlags: 1

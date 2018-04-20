@@ -1,4 +1,5 @@
 sceneSetups:
-- path: Assets/Saves/22 save - added traps and platforms.unity
+- path: Assets/Saves/47th save added checkpoint, lives and respawn, fixed some platforms
+    and hinge joints.unity
   isLoaded: 1
   isActive: 1

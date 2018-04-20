@@ -10,7 +10,7 @@ public class PlatformMovement : MonoBehaviour {
     private Transform currentPoint;
     public Transform[] points;
     public int pointSelection;
-    public Transform player;
+    
 
 	void Start ()
     {

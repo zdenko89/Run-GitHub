@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyMovementController : MonoBehaviour {
+    // currently not being used.
+
 
     public float enemySpeed;
 
@@ -43,7 +45,7 @@ public class EnemyMovementController : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D collider)
     {
 
-        if (collider.tag == "Player")
+        if (collider.tag == "Player") 
         {
             if (facingRight && collider.transform.position.x < transform.position.x)
             {

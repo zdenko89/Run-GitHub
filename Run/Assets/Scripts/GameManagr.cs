@@ -5,29 +5,29 @@ using UnityEngine.UI;
 
 public class GameManagr : MonoBehaviour {
 
-    [SerializeField]
-    GameObject[] switches;
+    [SerializeField] 
+    GameObject[] switches; // array to store all the switches in the inspector
 
     [SerializeField]
-    GameObject exitDoor;
+    GameObject exitDoor; // the exit door prefab where the player comes out of 
 
     [SerializeField]
-    GameObject entryDoor;
+    GameObject entryDoor; // the entry door prefab where the player enters, this is instantiated when all the switches are turned on
 
     int noOfSwitches = 0;
 
     [SerializeField]
-    Text switchCount;
+    Text switchCount; // this is just the text to show many switches left, this is then used in the UI 
 
 
 
-    public GameObject portal;
+    public GameObject portal; // portal wich is instantiated when all the switches have been turned off
    
 
    
 	void Start ()
     {
-        getNoOfSwitches();
+        getNoOfSwitches(); // a public function that that starts at the beginning of the game
                         
 	}
 	
@@ -65,7 +65,7 @@ public class GameManagr : MonoBehaviour {
         if (noOfSwitches <= 0) // if the number of switches that are false is less or equal to 0 then ... 
         {
             exitDoor.GetComponent<Door>().openDoor(); // make the exit door to open 
-            myPortal();
+            myPortal(); 
             
             
         }
@@ -74,7 +74,7 @@ public class GameManagr : MonoBehaviour {
     public void myPortal()
     {
         
-        Instantiate(portal, exitDoor.transform.position, exitDoor.transform.rotation); 
+        Instantiate(portal, exitDoor.transform.position, exitDoor.transform.rotation); // spawning the portal at the entry door. 
                 
     }
 

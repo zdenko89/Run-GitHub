@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HitObject : MonoBehaviour {
 
+    // This script controls the what the projectile interacts with. In this case it's with anything in the layer mask of Enemy.
+
     public float HitDamage;
     ProjectileController hitDetector; // reference to script
     public GameObject HitEffect;
@@ -53,7 +55,7 @@ public class HitObject : MonoBehaviour {
             {
                 EnemyHealth hurtEnemy = col.gameObject.GetComponent<EnemyHealth>(); // retrieve the game object collider/reference from EnemyHealth script and...
                 hurtEnemy.addDamage(HitDamage);  // adding damage to damage in EnemyHealth script, where it deducts it from enemy health
-                Destroy(gameObject); //
+                Destroy(gameObject); // destroy the game object
             }
         }
     }

@@ -36,11 +36,18 @@ public class PlayerController : MonoBehaviour {
     public GameObject exitDoorObject;
     public Vector3 exitDoorTrans;
 
+    ladder ladder;
 
+    public Vector3 respawnPoint;
+     
     void Start()
     {
+
+        ladder = GetComponent<ladder>();
+
         anim = GetComponent<Animator>();
         anim.SetBool("isDead", false); // setting isdead to false so the player will not start with the dead animation
+        anim.SetBool("upLadder", false);
     }
 
     void Update() // happens every frame
@@ -67,6 +74,9 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate () // called every physics step, not every frame like update()
         {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
 
         HandleAttacks(); // calling this function
         ResetValues(); // calling this function
@@ -80,8 +90,7 @@ public class PlayerController : MonoBehaviour {
         anim.SetFloat("vSpeed", GetComponent<Rigidbody2D>().velocity.y); // extract vertical speed information
 
         anim.SetFloat("Speed", Mathf.Abs(move));
-
-
+                
         if ( grounded ) // is the player touching the ground?
         {
 
@@ -179,11 +188,20 @@ public class PlayerController : MonoBehaviour {
         //sliding = false; // reseting the values for slide
     }
 
-    void OnCollisionEnter2D(Collision2D collisionPlatformMoving)
+    void OnCollisionEnter2D (Collision2D collision)
     {
-        if(collisionPlatformMoving.transform.tag == "MovingPlatform")
+        if(collision.transform.tag == "MovingPlatform")
         {
-            transform.parent = collisionPlatformMoving.transform;
+            transform.SetParent(collision.transform);
+            //transform.parent = collision.transform;
+        }
+    }
+
+    void OnCollisionExit2D (Collision2D other)
+    {
+        if (other.transform.tag == "MovingPlatform")
+        {
+            transform.SetParent(null);
         }
     }
 
@@ -203,13 +221,35 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        if(collision.gameObject.tag == "portal" && Input.GetKeyDown(KeyCode.E))
+        if(col.gameObject.tag == "portal" && Input.GetKeyDown(KeyCode.E)) // if the player or component which this script is attached to
         {                      
           gameObject.transform.position = exitDoorTrans;
         }
+
+
+        if(col.gameObject.tag == "checkpoint") // if the player or component which this script is attached to
+        {
+            respawnPoint = col.transform.position;
+        }
                
+    }
+
+    void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "ladder" && Input.GetKey(KeyCode.W)) // if the player or component which this script is attached to
+        {
+            
+            anim.SetBool("upLadder", true);
+
+        }
+        else if (col.gameObject.tag == "ladder" && Input.GetKey(KeyCode.S)) // if the player or component which this script is attached to
+        {
+           anim.SetBool("upLadder", true);
+            
+        }
+        
     }
 
    

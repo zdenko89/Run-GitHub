@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour {
 
+    // Enemy health script
+
     public GameObject enemyDeathEffect;
 
     public float enemyMaxHealth;
@@ -14,6 +16,9 @@ public class EnemyHealth : MonoBehaviour {
     float currentHealth;
 
     Animator anim;
+
+    public bool DeadNow;
+    public GameObject heart;
 
 	void Start ()
     {
@@ -26,30 +31,40 @@ public class EnemyHealth : MonoBehaviour {
 	
 	void Update ()
     {
-        if (currentHealth <= 0)
+        if (currentHealth <= 0) // if the enemy dies, health goes to zero then ... 
         {
-            Dead();
-            
+            Dead(); // activate the dead function
+            isDead(); // and isDead function
         }
 
     }
 
-    public void addDamage(float damage)
+    public void addDamage(float damage) // this function adds damage to the enemy, removes health.
     {
 
-        currentHealth -= damage;
-        EnemyhealthSlider.gameObject.SetActive(true); 
-        EnemyhealthSlider.value = currentHealth;
+        currentHealth -= damage; // remove some health
+        EnemyhealthSlider.gameObject.SetActive(true);  // update the UI slider
+        EnemyhealthSlider.value = currentHealth; 
 
         
                 
     }
-    public void Dead()
+    public void Dead() // cannot show the death animation or death effect because if the enemy object isn't destroyed right away then
+                       // it will instantiate the heart several times, meaning the player will pick up more health.
     {
-       Instantiate(enemyDeathEffect, transform.position, transform.rotation);
-       anim.SetBool("isDead", true);
-       GetComponent<rangerController>().enabled = false;
-       Destroy(gameObject, 5f);
+        Instantiate(enemyDeathEffect, transform.position, transform.rotation); // play the death effect
+       anim.SetBool("isDead", true); // animate the death 
+       GetComponent<rangerController>().enabled = false; // stop the range controller script, this will stop the object from functioning
+       Destroy(gameObject); // destroy the enemy object
+       DeadNow = true; // set the deadnow bool to true
         
+    }
+
+    public void isDead()
+    {
+        if (DeadNow) // if this bool is true then ... 
+        {
+            Instantiate(heart, transform.position, transform.rotation); // instantiate the heart at the enemy's position.
+        }
     }
 }

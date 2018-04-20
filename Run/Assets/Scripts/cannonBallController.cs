@@ -14,7 +14,7 @@ public class cannonBallController : MonoBehaviour {
     {
         cannonBall = GetComponent<Rigidbody2D>();
         cannonBall.AddForce(new Vector2(Random.Range(-cannonBallAngle, cannonBallAngle), Random.Range(cannonSpeedLow, cannonSpeedHigh)), ForceMode2D.Impulse);
-        // adding random force in the x and y as well as adding impurlse force which is explosive.
+        // adding random force in the x and y as well as adding impulse force, which is explosive.
 
         cannonBall.AddTorque(Random.Range(-cannonTorque, cannonTorque));
     }

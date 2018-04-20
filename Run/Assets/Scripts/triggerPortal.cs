@@ -5,7 +5,7 @@ using UnityEngine;
 public class triggerPortal : MonoBehaviour {
 
     PlayerController myPlayer;
-    public GameObject enterDoor;
+    public GameObject Exit;
    
 
  
@@ -20,10 +20,10 @@ public class triggerPortal : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")   // && Input.GetKeyDown(KeyCode.E)
+        if (collision.gameObject.tag == "Player" && Input.GetKeyDown(KeyCode.E))
         {
-            print("works");
-            myPlayer.transform.position = enterDoor.transform.position;
+            
+            myPlayer.transform.position = Exit.transform.position;
             
         }
     }

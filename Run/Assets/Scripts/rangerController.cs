@@ -32,8 +32,8 @@ public class rangerController : MonoBehaviour {
 
 
     private Transform player; 
-    PlayerController playerScript;
-    Rigidbody2D rb;
+   
+    Rigidbody2D rb; 
     private Animator anim;
 
     public LayerMask ground;
@@ -43,22 +43,26 @@ public class rangerController : MonoBehaviour {
     public Transform originPoint; // point where the raycast starts
     public Transform originPoint2; // second origin point 
     public Transform OriginToDetctPlayer; // origin point to detect the player
+    public Transform OriginToDetctPlayerLower; // origin point to detect the player
+    public Transform OriginToDetctPlayerBehind; // origin point to detect the player from behind the enemy
 
     public float enemySpeed; // enemy's speed
-    private Vector2 direction = new Vector2(1, 0); // direction which the ranger is facing, -1 would be left and 1 is right
+    private Vector2 direction = new Vector2(1, 0); // direction which the ranger is facing, -1 would be left and 1 is right. It's used for flipping both the ranger and raycast
+    private Vector2 directionBehind = new Vector2(-1, 0); 
 
     public float proximityRangeToWalls; // ranger detects walls
     public float proximityRangeToPlayer; // proximity range to detect the player
 
     bool facingRight = true; // this is to check whether the characer is facing left or right
 
-    public Transform bowEnd;
-    public GameObject Arrow;
+    public Transform bowEnd; // this is the point which the arrow will come out of
+    public GameObject Arrow; // this is the arrow prefab
 
-    private float timeBetweenShots;
+    private float timeBetweenShots; 
     public float startTimeBetweenShots;
    
     public float retreatDistance;
+
     
 
     void Start()
@@ -66,7 +70,8 @@ public class rangerController : MonoBehaviour {
         anim = GetComponent<Animator>(); // retrieving the Animator component attached to the archer
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>(); // retrieving the rigidbody component from the archer
-        timeBetweenShots = startTimeBetweenShots;
+        timeBetweenShots = startTimeBetweenShots; // reseting time between shots
+        
     }
 
     void Update()
@@ -74,14 +79,19 @@ public class rangerController : MonoBehaviour {
         
 
         
+        // THIS IS JUST TO DRAW THE LINE !   !   !  !
+        Debug.DrawRay(originPoint.position, direction * proximityRangeToWalls); // creating a raycast line point out of the ranger to detect objects
+        Debug.DrawRay(originPoint2.position, direction * proximityRangeToWalls); // creating a raycast line to detect if the ground has come to an end
+        Debug.DrawRay(OriginToDetctPlayer.position, direction * proximityRangeToPlayer); // this is to detect the upper part of the player
+        Debug.DrawRay(OriginToDetctPlayerLower.position, direction * proximityRangeToPlayer); // and this is to detect the lower part of the player
+        Debug.DrawRay(OriginToDetctPlayerBehind.position, directionBehind * proximityRangeToPlayer/2); // and this to detect the player if he is behind the enemy
 
-        Debug.DrawRay(originPoint.position, direction * proximityRangeToWalls); // creating a raycast line point out of the ranger
-        Debug.DrawRay(originPoint2.position, direction * proximityRangeToWalls);
-        Debug.DrawRay(OriginToDetctPlayer.position, direction * proximityRangeToPlayer);
-
+        // This is to detect
         RaycastHit2D hit = Physics2D.Raycast(originPoint.position, direction, proximityRangeToWalls, ground); // origin point is where the raycast starts, direction is which direction it's pointing to, and range is how long the raycast is.
         RaycastHit2D hit2 = Physics2D.Raycast(originPoint2.position, direction, proximityRangeToWalls, ground); // second origin point
-        RaycastHit2D hitDetectPlayer = Physics2D.Raycast(OriginToDetctPlayer.position, direction, proximityRangeToPlayer, targetPlayer);
+        RaycastHit2D hitDetectPlayer = Physics2D.Raycast(OriginToDetctPlayer.position, direction, proximityRangeToPlayer, targetPlayer); // origin point to detect from upper enemy to player
+        RaycastHit2D hitDetectPlayerLower = Physics2D.Raycast(OriginToDetctPlayerLower.position, direction, proximityRangeToPlayer, targetPlayer); // origin point to detect the lower part of the player
+        RaycastHit2D hitDetectPlayerBehind = Physics2D.Raycast(OriginToDetctPlayerBehind.position, directionBehind, proximityRangeToPlayer/2, targetPlayer); // origin point to detect the lower part of the player
 
         // getting the ranger to compute the distance between himself and the player and checking if stopping distance is less than his position AND if hitDetectPlayer is true
         if (Vector2.Distance(transform.position, player.position) < proximityRangeToPlayer && hitDetectPlayer == true)
@@ -99,24 +109,42 @@ public class rangerController : MonoBehaviour {
             Flip(); // flip the ranger
             enemySpeed *= -1; // give ranger opposite speed
             direction *= -1; // opposite direction
+            directionBehind *= -1;
         }
         if  (hit == false ) // if the second origin point STOPS toucing "Ground" layer then...
         {
             Flip(); // flip the ranger
             enemySpeed *= -1; // give ranger opposite speed
             direction *= -1; // opposite direction
+            directionBehind *= -1;
         }
-        if (hitDetectPlayer == true ) // if the raycast detets the player then...
+        if (hitDetectPlayer == true || hitDetectPlayerLower == true) // if the upper or lower raycast detets the player then...
         {
+            anim.SetBool("isAttacking", true);
             shootArrow();
             transform.position = Vector2.MoveTowards(transform.position, player.position, -enemySpeed * Time.deltaTime);
-            enemySpeed = 0;
+            enemySpeed = 0; // I added this to stop the enemy from moving when he was shooting but this made the enemy not move even when the player wasnt in range
+                                 
+        }
+        if (hitDetectPlayerBehind == true)
+        {
+            Flip(); // flip the ranger  
+            anim.SetBool("isAttacking", true);
             
-            anim.SetBool("isAttacking", true);           
-        } else 
+            transform.position = Vector2.MoveTowards(transform.position, player.position, -enemySpeed * Time.deltaTime);
+            enemySpeed = 0; // I added this to stop the enemy from moving when he was shooting but this made the enemy not move even when the player wasnt in range
+            directionBehind = -directionBehind; // opposite direction
+
+             shootArrow();
+            //enemySpeed *= 1; // give ranger opposite speed
+
+
+        }
+        else if (hitDetectPlayer == false || hitDetectPlayerLower == false)
         {
             anim.SetBool("isAttacking", false);
             
+
         }
         
 
@@ -133,6 +161,7 @@ public class rangerController : MonoBehaviour {
 
     void FixedUpdate ()
     {
+        
 
         anim.SetFloat("Speed", Mathf.Abs(enemySpeed));
 
@@ -144,11 +173,11 @@ public class rangerController : MonoBehaviour {
     void shootArrow() // getting the arrow to shoot
     {
 
-        if (timeBetweenShots <= 0 && facingRight)
+        if (timeBetweenShots <= 0 && facingRight) // if the enemy hasn't shot yet and is facing to the right (1,0)
         {
 
-            Instantiate(Arrow, bowEnd.position, Quaternion.Euler(new Vector3(0, 0, 0)));
-            timeBetweenShots = startTimeBetweenShots;
+            Instantiate(Arrow, bowEnd.position, Quaternion.Euler(new Vector3(0, 0, 0))); // draw the arrow  
+            timeBetweenShots = startTimeBetweenShots; 
 
         }
         else
@@ -156,10 +185,10 @@ public class rangerController : MonoBehaviour {
             timeBetweenShots -= Time.deltaTime;
         }
 
-        if (timeBetweenShots <= 0 && !facingRight )
+        if (timeBetweenShots <= 0 && !facingRight) // if the enemy hasn't shot yet and is facing to the right (-1,0)
         {
 
-            Instantiate(Arrow, bowEnd.position, Quaternion.Euler(new Vector3(0, 0, 180)));
+            Instantiate(Arrow, bowEnd.position, Quaternion.Euler(new Vector3(0, 0, 180))); // draw the arrow with 180 rotation
             timeBetweenShots = startTimeBetweenShots;
 
         }

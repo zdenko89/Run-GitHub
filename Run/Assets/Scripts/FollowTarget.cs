@@ -5,7 +5,9 @@ using UnityEngine;
 public class FollowTarget : MonoBehaviour {
 
 
-    public Transform target;
+    // This script follows the player
+
+    public Transform target; // this is the player, could be anything but 
     Vector3 velocity = Vector3.zero;
     public float smothTime = .15f;
 

@@ -33,7 +33,7 @@ public class Door : MonoBehaviour
     public void lockedDoor() // function to lock the door and set it's state
     {
 
-        if (doorType.name == "ExitDoor")
+        if (doorType.name == "ExitDoor") 
         {
             anim.SetFloat("DoorState", 1);
             stateOfDoor = 1;
