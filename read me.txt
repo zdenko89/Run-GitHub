@@ -1,0 +1,12 @@
+Version 2017.3.1f1 (fc1d3344e6ea) Personal
+Mon, 29 Jan 2018 15:28:29 GMT
+Branch: 2017.3/release
+There is a executable file called "Run play" which should go straight to the game.
+
+To move: A/D or arrow keys
+To Jump: Space bar
+To Shoot: Left Control
+To Slide: Left shift
+To double jump: Space bar x2
+Pause & unpause: ESCAPE 
+
